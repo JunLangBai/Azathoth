@@ -9,56 +9,70 @@ public class AudioShuffler
 {
     private static void Main(string[] args)
     {
-        // 基础目录设置
-        string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-        string outputDir = Path.Combine(baseDirectory, "古神语输出");    // 最终输出目录
-        string inputDir = Path.Combine(baseDirectory, "格式转换内部文件"); // 中间处理目录
-
-        // 整理文件名格式
-        new AudioShuffler().FileNameFormat();
-
-        // 确保输出目录存在
-        if (!Directory.Exists(outputDir))
+        try
         {
-            Directory.CreateDirectory(outputDir);
-            Console.WriteLine($"创建输出目录: {outputDir}");
-        }
+            // 基础目录设置
+            string outputDir = Path.Combine( "古神语输出"); // 最终输出目录
+            string inputDir = Path.Combine( "格式转换内部文件"); // 中间处理目录
 
-        // 获取所有支持的音频文件（过滤非音频文件）
-        var audioFiles = Directory.GetFiles(inputDir, "*.*")
-            .Where(f => IsSupportedAudioFile(f))
-            .ToArray();
+            // 整理文件名格式
+            new AudioShuffler().FileNameFormat();
 
-        if (audioFiles.Length == 0)
-        {
-            Console.WriteLine("没有找到支持的音频文件");
-            return;
-        }
-
-        // 初始化音频处理器
-        var shuffler = new AudioShuffler();
-        foreach (var file in audioFiles)
-        {
-            try
+            // 确保输出目录存在
+            if (!Directory.Exists(outputDir))
             {
-                // 构造输出路径
-                string fileName = Path.GetFileNameWithoutExtension(file);
-                Random r = new Random();
-                string outputPath = Path.Combine(outputDir, $"{fileName}{r.Next(0,9999)}.wav");
-                
-                Console.WriteLine($"正在处理: {file}");
-                // 处理音频并保存（使用80毫秒的块大小）
-                shuffler.ShuffleAudio(file, outputPath, 200);
-                Console.WriteLine($"已保存到: {outputPath}");
-                
-                File.Delete(file); // 删除中间处理文件
+                Directory.CreateDirectory(outputDir);
+                Console.WriteLine($"创建输出目录: {outputDir}");
             }
-            catch (Exception ex)
+
+            // 获取所有支持的音频文件（过滤非音频文件）
+            var audioFiles = Directory.GetFiles(inputDir, "*.*")
+                .Where(f => IsSupportedAudioFile(f))
+                .ToArray();
+
+            if (audioFiles.Length == 0)
             {
-                Console.WriteLine($"处理文件 {file} 出错: {ex.Message}");
+                Console.WriteLine("没有找到支持的音频文件");
+                return;
             }
+
+            // 初始化音频处理器
+            var shuffler = new AudioShuffler();
+            foreach (var file in audioFiles)
+            {
+                try
+                {
+                    // 构造输出路径
+                    string fileName = Path.GetFileNameWithoutExtension(file);
+                    Random r = new Random();
+                    string outputPath = Path.Combine(outputDir, $"{fileName}{r.Next(0, 9999)}.wav");
+
+                    Console.WriteLine($"正在处理: {file}");
+                    // 处理音频并保存（使用80毫秒的块大小）
+                    shuffler.ShuffleAudio(file, outputPath, 200);
+                    Console.WriteLine($"已保存到: {outputPath}");
+
+                    File.Delete(file); // 删除中间处理文件
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"处理文件 {file} 出错: {ex.Message}");
+                }
+            }
+
+            Console.WriteLine("全部处理完成!");
         }
-        Console.WriteLine("全部处理完成!");
+        catch (Exception e)
+        {
+            Console.WriteLine($"发生错误: {e.Message}");
+            throw;
+        }
+        finally
+        {
+            Console.WriteLine("按下任意键退出...");
+            Console.ReadKey();
+        }
+
     }
 
     /// <summary>
@@ -209,9 +223,9 @@ public class AudioShuffler
     /// </summary>
     public void FileNameFormat()
     {
-        string baseDir = AppDomain.CurrentDomain.BaseDirectory;
-        string sourceDir = Path.Combine(baseDir, "音频源文件");      // 用户原始文件目录
-        string processDir = Path.Combine(baseDir, "格式转换内部文件"); // 隐藏处理目录
+       
+        string sourceDir = Path.GetFullPath("音频源文件");      // 用户原始文件目录
+        string processDir = Path.GetFullPath("格式转换内部文件"); // 隐藏处理目录
 
         try
         {
