@@ -1,0 +1,68 @@
+# =========================
+# .NET / .NET Core 项目
+# =========================
+
+# 编译输出目录
+[Bb]in/
+[Oo]bj/
+
+# NuGet 包缓存
+packages/
+*.nupkg
+
+# 用户特定文件
+格式转换内部文件/
+古神语输出/
+音频源文件/
+*.user
+*.userprefs
+
+# Visual Studio 和 Rider 的临时文件
+*.suo
+*.tmp
+*.log
+*.vs/
+.vscode/
+.idea/
+
+# Rider 特定文件
+*.DotSettings.user
+*.csproj.user
+ReSharper.Cache
+
+# 测试结果
+TestResult.xml
+coverage/
+
+# 其他临时文件
+*.pidb
+*.dll.config
+*.cache
+*.docstates
+
+# macOS 特定文件
+.DS_Store
+
+# Windows 特定文件
+Thumbs.db
+desktop.ini
+
+# Linux 特定文件
+*~
+
+# =========================
+# 其他工具相关
+# =========================
+
+# Docker
+docker-compose.override.yml
+.dockerenv
+
+# Node.js（如果项目包含前端部分）
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Python（如果项目包含脚本）
+__pycache__/
+*.py[cod]
