@@ -48,7 +48,7 @@ public class AudioShuffler
                     string outputPath = Path.Combine(outputDir, $"{fileName}{r.Next(0, 9999)}.wav");
 
                     Console.WriteLine($"正在处理: {file}");
-                    // 处理音频并保存（使用80毫秒的块大小）
+                    // 处理音频并保存（使用200毫秒的块大小）
                     shuffler.ShuffleAudio(file, outputPath, 200);
                     Console.WriteLine($"已保存到: {outputPath}");
 
